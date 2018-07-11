@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>RAFFLE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.bootcss.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/vue/2.5.16/vue.min.js"></script>
+</head>
+
+<body>
+    <div id="app">
+
+        <div class="container">
+            <div class="jumbotron">
+                <h1 class="display-4">抽奖活动</h1>
+                <p class="lead">庆祝公司上市.</p>
+                <p class="lead">
+                    <!-- 开始抽奖的方法按钮 -->
+                    <button class="btn btn-primary btn-lg" v-on:click="startRaffle()">抽奖</button>
+                    <!-- 结束抽奖的方法按钮 -->
+                    <button class="btn btn-primary btn-lg" v-on:click="stopRaffle()">开奖</button>
+                    <hr/>
+                    <strong>操作指南：</strong>
+                    <ul>
+                        <li>第一步点击抽奖按钮</li>
+                        <li>第二步点击开奖按钮，下方幸运儿栏目会自动弹出抽中者</li>
+                        <li>下次再抽奖仍然是点击抽奖按钮循环上述两步</li>
+                        <li>如果不小心连续点击抽奖按钮不影响公平结果</li>
+                        <li>如果不小心连续点击开奖按钮会弹出同一个幸运儿，可刷新重置，不刷新不影响下次抽奖公平性</li>
+                    </ul>
+                </p>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    幸运儿
+                </div>
+                <div class="card-body">
+                    <ul>
+                        <!-- 展示幸运观众 -->
+                        <ol v-for="luckyUser in luckyUsers">{{ luckyUser.name }}</ol>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    //使用for循环造出用于抽奖的用户，
+    var users = function () {
+        let users = [];
+        for (let i = 0; i < 100; i++) {
+            users.push({ id: i + 1, name: "name " + (i + 1) })
+        }
+        return users;
+    }();
+    new Vue({
+        el: "#app",
+        data: {
+            users: users,//自己造的所有的用于抽奖的用户
+            stopAction: false,//三个方法的共同属性，用于控制动作的开和关
+            luckyUserNumber: 0,//搜集循环中对应的循环执行停止的次数
+            luckyUsers: [],//搜集执行停止时对应的幸运儿对象
+
+        },
+        methods: {
+            //执行循环的方法，功能：执行抽奖循环同时
+            //通过循环执行raffle来得到循环的luckyUserNumber
+            raffle: function () {
+
+                if (!this.stopAction) {
+                    return;
+                };
+                console.log('raffle');
+                //this.users.length的值是100，这样this.luckyUserNumber
+                //的最小值变成了0，最大值就是99;
+                //这样users中的每一个对象就都可以遍历到
+                if (this.luckyUserNumber >= this.users.length - 1) {
+                    this.luckyUserNumber = 0;
+                }
+                this.luckyUserNumber += 1;
+
+                setTimeout(() => {
+                    this.raffle();
+                }, 1);
+            },
+            //开始抽奖的按钮对应的执行方法
+            //功能：启动执行循环的方法
+            startRaffle: function () {
+                console.log('startRaffle');
+                this.stopAction = true;
+                this.raffle();
+            },
+            //开奖按钮对应的执行方法，功能：暂停执行循环同时
+            //抛出开奖当时对应的幸运儿
+            stopRaffle: function () {
+                console.log('stopRaffle');
+                console.log(this.luckyUserNumber);
+                this.luckyUsers.push(this.users[this.luckyUserNumber]);
+                this.stopAction = false;
+            }
+
+        }
+    })
+</script>
+
+</html>
