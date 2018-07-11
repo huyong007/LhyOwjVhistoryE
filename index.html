@@ -8,42 +8,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.bootcss.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.bootcss.com/vue/2.5.16/vue.min.js"></script>
+    <style class="text/css">
+        body {
+            margin: 20px;
+            padding: 20px;
+        }
+    </style>
 </head>
 
 <body>
     <div id="app">
 
         <div class="container">
-            <div class="jumbotron">
-                <h1 class="display-4">抽奖活动</h1>
-                <p class="lead">庆祝公司上市.</p>
-                <p class="lead">
-                    <!-- 开始抽奖的方法按钮 -->
-                    <button class="btn btn-primary btn-lg" v-on:click="startRaffle()">抽奖</button>
-                    <!-- 结束抽奖的方法按钮 -->
-                    <button class="btn btn-primary btn-lg" v-on:click="stopRaffle()">开奖</button>
-                    <hr/>
-                    <strong>操作指南：</strong>
-                    <ul>
-                        <li>第一步点击抽奖按钮</li>
-                        <li>第二步点击开奖按钮，下方幸运儿栏目会自动弹出抽中者</li>
-                        <li>下次再抽奖仍然是点击抽奖按钮循环上述两步</li>
-                        <li>如果不小心连续点击抽奖按钮不影响公平结果</li>
-                        <li>如果不小心连续点击开奖按钮会弹出同一个幸运儿，可刷新重置，不刷新不影响下次抽奖公平性</li>
-                    </ul>
-                </p>
-            </div>
-            <div class="card">
-                <div class="card-header">
-                    幸运儿
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="jumbotron">
+                        <h1 class="display-4">抽奖活动</h1>
+                        <p class="lead">庆祝公司上市.</p>
+                        <p class="lead">
+                            <!-- 开始抽奖的方法按钮 -->
+                            <button class="btn btn-primary btn-lg" v-on:click="startRaffle()">抽奖</button>
+                            <!-- 结束抽奖的方法按钮 -->
+                            <button class="btn btn-primary btn-lg" v-on:click="stopRaffle()">开奖</button>
+                            <hr/>
+                            <strong>操作指南：</strong>
+                            <ul>
+                                <li>第一步点击抽奖按钮</li>
+                                <li>第二步点击开奖按钮，下方幸运儿栏目会自动弹出抽中者</li>
+                                <li>下次再抽奖仍然是点击抽奖按钮循环上述两步</li>
+                                <li>如果不小心连续点击抽奖按钮不影响公平结果</li>
+                                <li>如果不小心连续点击开奖按钮会弹出同一个幸运儿，可刷新重置，不刷新不影响下次抽奖公平性</li>
+                            </ul>
+                        </p>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <ul>
-                        <!-- 展示幸运观众 -->
-                        <ol v-for="luckyUser in luckyUsers">{{ luckyUser.name }}</ol>
-                    </ul>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-header">
+                            幸运儿
+                        </div>
+                        <div class="card-body">
+                            <ul>
+                                <!-- 展示幸运观众 -->
+                                <ol v-for="luckyUser in luckyUsers">{{ luckyUser.name }}</ol>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
+
+
         </div>
     </div>
 </body>
