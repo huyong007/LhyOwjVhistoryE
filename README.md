@@ -1,3 +1,3 @@
 # raffleMadeByVue
-vue
-learn vue  css  html bootstap and js.
+- about this item
+- learn vue  css  html bootstap and js.
