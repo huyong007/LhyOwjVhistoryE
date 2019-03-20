@@ -6,7 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Reffle</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.bootcss.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+        crossorigin="anonymous">
     <script src="https://cdn.bootcss.com/vue/2.5.16/vue.min.js"></script>
     <style type="text/css">
         body {
@@ -29,15 +30,17 @@
                             <!-- 开始抽奖的方法按钮 -->
                             <button class="btn btn-primary btn-lg" v-on:click="startRaffle()">抽奖</button>
                             <!-- 结束抽奖的方法按钮 -->
-                            <button class="btn btn-primary btn-lg" v-on:click="stopRaffle()">开奖</button>
+                            <span v-if='stopAction'>
+                                <button class="btn btn-primary btn-lg" v-on:click="stopRaffle()">开奖</button>
+                            </span>
+                            <button class="btn btn-secondary btn-lg" v-on:click="resetRaffle()">重置</button>
+
                             <hr/>
                             <strong>操作指南：</strong>
                             <ul>
                                 <li>第一步点击抽奖按钮</li>
                                 <li>第二步点击开奖按钮，下方幸运儿栏目会自动弹出抽中者</li>
                                 <li>下次再抽奖仍然是点击抽奖按钮循环上述两步</li>
-                                <li>如果不小心连续点击抽奖按钮不影响公平结果</li>
-                                <li>如果不小心连续点击开奖按钮会弹出同一个幸运儿，可刷新重置，不刷新不影响下次抽奖公平性</li>
                             </ul>
                         </p>
                     </div>
@@ -48,10 +51,18 @@
                             幸运儿
                         </div>
                         <div class="card-body">
+
                             <ul>
                                 <!-- 展示幸运观众 -->
                                 <ol v-for="luckyUser in luckyUsers">{{ luckyUser.name }}</ol>
                             </ul>
+                            <span v-if='stopAction'>
+                                <div class="d-flex justify-content-center">
+                                    <div class="spinner-border text-success" role="status"  style="width: 3rem; height: 3rem;">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                </div>
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -114,6 +125,9 @@
                 console.log(this.luckyUserNumber);
                 this.luckyUsers.push(this.users[this.luckyUserNumber]);
                 this.stopAction = false;
+            },
+            resetRaffle: function () {
+                this.luckyUsers = [];
             }
 
         }
